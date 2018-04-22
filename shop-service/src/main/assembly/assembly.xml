@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+	<id>1.0</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>true</useProjectArtifact>
+			<outputDirectory>lib</outputDirectory>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
+
+	<fileSets>
+		<fileSet>
+			<directory>src/main/properties/</directory>
+			<outputDirectory>bin</outputDirectory>
+		</fileSet>
+	</fileSets>
+
+	<files>
+		<file>
+			<source>src/main/script/start.sh</source>
+			<outputDirectory>bin</outputDirectory>
+		</file>
+		<file>
+			<source>src/main/script/stop.sh</source>
+			<outputDirectory>bin</outputDirectory>
+		</file>
+	</files>
+</assembly>
