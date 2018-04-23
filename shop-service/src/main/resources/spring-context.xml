@@ -59,6 +59,7 @@
 
 	<tx:annotation-driven
 		transaction-manager="transactionManager" />
-		
+
 	<import resource="spring-dubbo-provider.xml"/>
+	<import resource="spring-hazelcast.xml"/>
 </beans>

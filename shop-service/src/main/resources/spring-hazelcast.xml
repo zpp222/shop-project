@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:hz="http://www.hazelcast.com/schema/spring"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                http://www.hazelcast.com/schema/spring
+                http://www.hazelcast.com/schema/spring/hazelcast-spring.xsd
+                http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<hz:hazelcast id="instance">
+		<hz:config>
+			<hz:group name="dev" password="password" />
+			<hz:properties>
+				<hz:property name="hazelcast.logging.type">slf4j</hz:property>
+			</hz:properties>
+			<hz:network port="5701" port-auto-increment="true">
+				<hz:join>
+					<hz:multicast enabled="false" />
+					<hz:tcp-ip enabled="true">
+						<hz:members>127.0.0.1, 127.0.0.2</hz:members>
+					</hz:tcp-ip>
+				</hz:join>
+			</hz:network>
+			<hz:map name="hzMap" backup-count="2" max-size="0"
+				eviction-percentage="30" read-backup-data="true"
+				eviction-policy="LRU" max-idle-seconds="300"
+				merge-policy="com.hazelcast.map.merge.PassThroughMergePolicy" >
+				<hz:map-store enabled="true" class-name="org.shop.hz.mapStore.HzMapStore" write-delay-seconds="60"/>
+			</hz:map>
+		</hz:config>
+	</hz:hazelcast>
+
+	<cache:annotation-driven cache-manager="cacheManager" />
+	<bean id="cacheManager" class="com.hazelcast.spring.cache.HazelcastCacheManager">
+		<constructor-arg ref="instance" />
+	</bean>
+
+</beans>
