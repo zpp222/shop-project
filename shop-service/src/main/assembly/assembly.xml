@@ -28,5 +28,9 @@
 			<source>src/main/script/stop.sh</source>
 			<outputDirectory>bin</outputDirectory>
 		</file>
+		<file>
+			<source>src/main/script/run.bat</source>
+			<outputDirectory>bin</outputDirectory>
+		</file>
 	</files>
 </assembly>
