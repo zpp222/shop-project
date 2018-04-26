@@ -22,8 +22,8 @@
         
 	<dubbo:application name="shop-provider" />
 	<dubbo:registry protocol="zookeeper" address="${dubbo.address}" />
-	<dubbo:protocol name="dubbo" port="20880" />
-	<dubbo:provider delay="-1" timeout="6000" retries="0"/>
+	<dubbo:protocol name="dubbo" port="20880" threadpool="cached" threads="500" />
+	<dubbo:provider delay="-1" timeout="30000" retries="0"/>
 	<dubbo:service interface="org.shop.serviceI.dto.UserLoginService" ref="org.shop.service.UserLoginServiceImpl" />
 	
 </beans>
