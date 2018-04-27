@@ -20,10 +20,18 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
         
-	<dubbo:application name="shop-provider" />
+	<dubbo:application name="shop-provider"/>
+	<!-- 优先级以此升高 -->
+	<dubbo:provider delay="-1" timeout="30000" retries="0" threadpool="cached" threads="1000" token="true"/>
 	<dubbo:registry protocol="zookeeper" address="${dubbo.address}" />
-	<dubbo:protocol name="dubbo" port="20880" threadpool="cached" threads="500" />
-	<dubbo:provider delay="-1" timeout="30000" retries="0"/>
-	<dubbo:service interface="org.shop.serviceI.dto.UserLoginService" ref="org.shop.service.UserLoginServiceImpl" />
+	<dubbo:protocol name="dubbo" port="20880" dispatcher="all" threadpool="fixed" threads="500" id="pro1"/>
+	<dubbo:protocol name="dubbo" port="20881" dispatcher="all" threadpool="fixed" threads="500" id="pro2"/>
 	
+	<!-- <dubbo:monitor protocol="dubbo" address="127.0.0.1:12080"/> -->
+	
+	<dubbo:service cluster="failsafe" loadbalance="leastactive" connections="4" executes="500" actives="500"
+		interface="org.shop.serviceI.dto.UserLoginService" ref="org.shop.service.UserLoginServiceImpl">
+		<dubbo:method name="login" loadbalance="roundrobin" actives="1000" retries="2" timeout="8000"/>
+	</dubbo:service>
+		
 </beans>

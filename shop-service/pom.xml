@@ -104,10 +104,10 @@
 					<groupId>jline</groupId>
 					<artifactId>jline</artifactId>
 				</exclusion>
-				<exclusion>
+				<!-- <exclusion>
 					<groupId>log4j</groupId>
 					<artifactId>log4j</artifactId>
-				</exclusion>
+				</exclusion> -->
 				<exclusion>
 					<groupId>io.netty</groupId>
 					<artifactId>netty</artifactId>

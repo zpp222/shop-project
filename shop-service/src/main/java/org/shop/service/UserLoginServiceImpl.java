@@ -21,6 +21,11 @@ public class UserLoginServiceImpl implements UserLoginService {
 	public User login(User user) {
 		logger.info("login ...");
 		user = userDao.getStudent(user.getId());
+		try {
+			Thread.sleep(350);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return user;
 	}
 

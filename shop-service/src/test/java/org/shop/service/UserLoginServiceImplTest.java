@@ -24,16 +24,11 @@ public class UserLoginServiceImplTest {
 	@Test
 	@Transactional
 	public void testLogin() {
+
 		User user = new User();
 		user.setId("1");
 		user = userLoginService.login(user);
 		assertEquals(user.getName(), "zpp");
-
-		try {
-			Thread.sleep(5 * 60);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
