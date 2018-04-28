@@ -19,7 +19,7 @@ public class UserLoginServiceImplTest {
 	ControllerAsyJob controllerAsyJob;
 	@Test
 	public void testLogin() {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			Thread th = new Thread(controllerAsyJob);
 			th.start();
 		}

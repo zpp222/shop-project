@@ -20,9 +20,9 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
         
-	<dubbo:application name="shop-provider"/>
+	<dubbo:application name="shop-provider" logger="slf4j"/>
 	<!-- 优先级以此升高 -->
-	<dubbo:provider delay="-1" timeout="30000" retries="0" threadpool="cached" threads="1000" token="true"/>
+	<dubbo:provider delay="-1" timeout="30000" retries="0" threadpool="cached" threads="1000" token="true" filter="logFilter" />
 	<dubbo:registry protocol="zookeeper" address="${dubbo.address}" />
 	<dubbo:protocol name="dubbo" port="20880" dispatcher="all" threadpool="fixed" threads="500" id="pro1"/>
 	<dubbo:protocol name="dubbo" port="20881" dispatcher="all" threadpool="fixed" threads="500" id="pro2"/>
