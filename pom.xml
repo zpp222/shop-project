@@ -172,9 +172,6 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.8</version>
 				<configuration>
-					<skip>flase</skip>
-					<output>file</output>
-					<append>true</append>
 				</configuration>
 				<executions>
 					<execution>
