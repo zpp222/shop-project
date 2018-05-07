@@ -133,6 +133,9 @@
 	</dependencies>
 
 	<build>
+		<filters>
+			<filter>src/main/filters/filter-${env}.properties</filter>
+		</filters>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -165,7 +168,15 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>*.xml</include>
+					<include>dubbo.properties</include>
 					<include>META-INF/dubbo/com.alibaba.dubbo.rpc.Filter</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/properties</directory>
+				<includes>
+					<include>*.properties</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
