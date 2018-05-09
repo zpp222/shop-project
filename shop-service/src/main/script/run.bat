@@ -1,0 +1,1 @@
+java -Xms512m -Xmx512m -classpath ../lib/*;. org.shop.main.ServiceRunMain

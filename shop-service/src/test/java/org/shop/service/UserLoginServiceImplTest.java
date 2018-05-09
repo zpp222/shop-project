@@ -24,6 +24,7 @@ public class UserLoginServiceImplTest {
 	@Test
 	@Transactional
 	public void testLogin() {
+
 		User user = new User();
 		user.setId("1");
 		user = userLoginService.login(user);
