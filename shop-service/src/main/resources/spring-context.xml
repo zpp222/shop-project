@@ -35,7 +35,7 @@
 	<bean id="dataSource"
 		class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close"
 		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
-		p:username="${jdbc.username}" p:password="${jdbc.password}" />
+		p:username="${jdbc.username}" p:password="${jdbc.password}" p:maxActive="100" />
 
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">

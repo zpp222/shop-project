@@ -14,6 +14,12 @@
 			<hz:group name="dev" password="password" />
 			<hz:properties>
 				<hz:property name="hazelcast.logging.type">slf4j</hz:property>
+				<hz:property name="hazelcast.query.result.size.limit">10000</hz:property>
+				<hz:property name="hazelcast.cache.invalidation.batch.enabled">true</hz:property>
+				<hz:property name="hazelcast.cache.invalidation.batch.size">100</hz:property>
+				<hz:property name="hazelcast.event.thread.count">10</hz:property>
+				<hz:property name="hazelcast.io.thread.count">10</hz:property>
+				<hz:property name="hazelcast.query.predicate.parallel.evaluation">true</hz:property>
 			</hz:properties>
 			<hz:network port="5701" port-auto-increment="true">
 				<hz:join>
@@ -23,11 +29,14 @@
 					</hz:tcp-ip>
 				</hz:join>
 			</hz:network>
+			<hz:executor-service name="taskExecutor" pool-size="100" queue-capacity="200" />
 			<hz:map name="hzMap" backup-count="2" max-size="0"
 				eviction-percentage="30" read-backup-data="true"
 				eviction-policy="LRU" max-idle-seconds="300"
 				merge-policy="com.hazelcast.map.merge.PassThroughMergePolicy" >
 				<hz:map-store enabled="true" class-name="org.shop.hz.mapStore.HzMapStore" write-delay-seconds="60"/>
+				<hz:near-cache in-memory-format="OBJECT" max-size="10000" time-to-live-seconds="1000" max-idle-seconds="300" eviction-policy="LRU" invalidate-on-change="true" 
+					cache-local-entries="true"/>
 			</hz:map>
 		</hz:config>
 	</hz:hazelcast>
