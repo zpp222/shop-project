@@ -19,13 +19,17 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 	@Cacheable(value = "hzMap", key = "#user.id")
 	public User login(User user) {
-		logger.info("login ...");
+		logger.info("login user'id {} !", user.getId());
 		user = userDao.getStudent(user.getId());
 		try {
 			Thread.sleep(350);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		if (null == user) {
+			user = new User();
+		}
+		logger.info("login user is {} !", user);
 		return user;
 	}
 
