@@ -38,10 +38,10 @@
 				<hz:near-cache in-memory-format="OBJECT" max-size="10000" time-to-live-seconds="1000" max-idle-seconds="300" eviction-policy="LRU" invalidate-on-change="true" 
 					cache-local-entries="true"/>
 				<hz:indexes>
-					<hz:index attribute="userId" ordered="true"/>
+					<hz:index attribute="userAtt[id]" ordered="true"/>
 				</hz:indexes>
 				<hz:attributes>
-					<hz:attribute name="userId" extractor="org.shop.hz.extractor.UserValueExtractor" />
+					<hz:attribute name="userAtt" extractor="org.shop.hz.extractor.UserValueExtractor" />
 				</hz:attributes>
 			</hz:map>
 		</hz:config>
