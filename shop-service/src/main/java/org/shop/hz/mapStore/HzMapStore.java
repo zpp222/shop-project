@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
 import com.hazelcast.core.MapStore;
 
 public class HzMapStore implements MapStore<String, Object> {
@@ -38,12 +39,12 @@ public class HzMapStore implements MapStore<String, Object> {
 	}
 
 	public void store(String key, Object value) {
-		logger.info("store :" + key + ":" + value);
+		logger.info("store :" + key + " - " + JSON.toJSONString(value));
 
 	}
 
 	public void storeAll(Map<String, Object> map) {
-		logger.info("storeAll :" + map);
+		logger.info("storeAll :" + JSON.toJSONString(map));
 
 	}
 
