@@ -5,6 +5,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-hello!
+	<div id="login">
+		<form @submit.prevent="onSubmit">
+			<input v-model="user.name" placeholder="edit name"> 
+			<input v-model="user.passwd" placeholder="edit password"> 
+			<input type="submit" value="login">
+		</form>
+	</div>
+	<script type="text/javascript" src="./static/js/vue.js"></script>
+	<script type="text/javascript" src="./static/js/login/login.js"></script>
 </body>
 </html>
