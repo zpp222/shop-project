@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>login</title>
 </head>
 <body>
 	<div id="login">
@@ -11,8 +11,11 @@
 			<input v-model="user.passwd" placeholder="edit password"> 
 			<input type="submit" value="login">
 		</form>
+		<br>
+		<span>msg:{{ message }}</span>
 	</div>
-	<script type="text/javascript" src="./static/js/vue.js"></script>
-	<script type="text/javascript" src="./static/js/login/login.js"></script>
+	<script src="./static/js/vue.js"></script>
+	<script src="./static/js/login/login.js"></script>
+	<script src="./static/js/vue-resource.js"></script>
 </body>
 </html>
