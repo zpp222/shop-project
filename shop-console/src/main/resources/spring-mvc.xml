@@ -28,6 +28,6 @@
 	</bean>
 	
 	<mvc:resources mapping="/static/js/**/" location="/static/js/"/>
-
+	<mvc:resources mapping="/static/mint-ui/**/" location="/static/mint-ui/"/>
 
 </beans>
