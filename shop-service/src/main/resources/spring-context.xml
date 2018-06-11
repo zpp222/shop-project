@@ -59,6 +59,18 @@
 
 	<tx:annotation-driven
 		transaction-manager="transactionManager" />
+		
+	<!-- transaction 1: use @Transactional -->
+	<!-- transaction 2 :AOP -->
+	<aop:config>
+		<aop:pointcut expression="execution(* org.shop.service.*.*(..))" id="servicePoint"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePoint"/>
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
 
 	<import resource="spring-dubbo-provider.xml"/>
 	<import resource="spring-hazelcast.xml"/>
