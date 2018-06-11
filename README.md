@@ -1,1 +1,1 @@
-# shop-project-git
+# shop-project
