@@ -26,8 +26,9 @@ public class UserLoginServiceImplTest {
 	public void testLogin() {
 
 		User user = new User();
-		user.setId("1");
-		user = userLoginService.login(user);
+		user.setName("zpp");
+		user.setPasswd("123");
+		String errorcode = userLoginService.login(user);
 		assertEquals(user.getName(), "zpp");
 	}
 

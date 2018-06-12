@@ -18,26 +18,32 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 	private Logger logger = LoggerFactory.getLogger(UserLoginServiceImpl.class);
 
-	@Cacheable(value = "hzMap", key = "#user.id")
-	public User login(User user) {
-		logger.info("login user'id {} !", user.getId());
-		user = userDao.getStudent(user.getId());
-		try {
-			Thread.sleep(350);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+	
+	public String login(User user) {
+		String errorCode = "SVR-999";
+		String userName = user.getName();
+		logger.info("login user'name {} !", userName);
+		User local = userDao.getStudent(userName);
+		if (null == local) {
+			errorCode = "SVR-001";
+		}else{
+			if(local.getPasswd().equals(user.getPasswd())){
+				errorCode ="0000000";
+			}
 		}
-		if (null == user) {
-			user = new User();
-		}
-		logger.info("login user is {} !", user);
-		return user;
+		logger.info("login user is {} !", local);
+		return errorCode;
 	}
 
 	@Transactional
 	public void register(User user) {
 		logger.info("register ...");
 		userDao.save(user);
+	}
+	
+	@Cacheable(value = "hzMap", key = "#user.id")
+	public User getUserById(String id){
+		return null;
 	}
 
 }
