@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Unit test for simple App.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-context.xml"})
+@ContextConfiguration(locations = { "classpath:spring-context.xml" })
 public class UserLoginServiceImplTest {
 
 	@Autowired

@@ -14,12 +14,6 @@ public class UserLoginServiceImplTest {
 
 	@Test
 	public void testLogin() {
-		try {
-			Thread.sleep(60 * 1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }
