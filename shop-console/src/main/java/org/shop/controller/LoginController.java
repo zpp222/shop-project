@@ -1,5 +1,9 @@
 package org.shop.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.shop.serviceI.dto.User;
 import org.shop.serviceI.dto.UserLoginService;
 import org.slf4j.Logger;
@@ -23,7 +27,12 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public String login(@RequestBody User user) {
+	public String login(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
+		HttpSession session = request.getSession();
+		String sid = session.getId();
+		logger.info("session id :" + sid);
+		session.setAttribute("username", user.getName());
+
 		String rtcode = userLoginService.login(user);
 		JSONObject json = new JSONObject();
 		json.put("rtcode", rtcode);

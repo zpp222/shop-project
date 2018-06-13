@@ -1,13 +1,13 @@
 new Vue({
 	el : '#login',
 	data : {
-		user : {}
+		user : {},
 	},
 	methods : {
 		onSubmit : function(event) {
-			this.$http.post("/shop-console/login", {
-				"name":this.user.name,"passwd":this.user.passwd
-			}).then(function(response) {
+			this.$http.post("/shop-console/login", 
+					{"name":this.user.name,"passwd":this.user.passwd}
+			).then(function(response) {
 				console.log(response);
 				this.message = response.bodyText;
 				this.$toast(this.message);
