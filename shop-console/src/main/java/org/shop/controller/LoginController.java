@@ -10,6 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.shop.serviceI.dto.User;
 import org.shop.serviceI.dto.UserLoginService;
@@ -72,11 +73,11 @@ public class LoginController {
 	@RequestMapping(value = "/login2", method = RequestMethod.POST)
 	@ResponseBody
 	public String login2(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
-		HttpSession session = request.getSession();
-		String sid = session.getId();
-		logger.info("session id :" + sid);
-		session.setAttribute("username", user.getName());
-
+		/*
+		 * HttpSession session = request.getSession(); String sid =
+		 * session.getId(); logger.info("session id :" + sid);
+		 * session.setAttribute("username", user.getName());
+		 */
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPasswd());
 		Subject subject = SecurityUtils.getSubject();
 
@@ -85,7 +86,9 @@ public class LoginController {
 			subject.login(token);
 			if (subject.isAuthenticated()) {
 				json.put("rtcode", LOGIN_SUCC);
-				logger.info("login succ!");
+				Session session = subject.getSession();
+				session.setAttribute("username", user.getName());
+				logger.info("login succ!" + session.getId());
 			} else {
 				json.put("rtcode", LOGIN_FAIL);
 				logger.info("login fail!");
@@ -95,5 +98,13 @@ public class LoginController {
 			json.put("rtcode", LOGIN_EXCP);
 		}
 		return json.toJSONString();
+	}
+
+	@RequiresRoles(value = { "system", "user" }, logical = Logical.AND)
+	@RequiresPermissions(value = { "TEST" })
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@ResponseBody
+	public String test() {
+		return "no permissions !";
 	}
 }

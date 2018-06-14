@@ -22,6 +22,7 @@
         	<value>
         		/static/**=anon
         		/login*=anon
+        		/unauthorized=anon
         		/index.html=anon
             	/admin/** = authc, roles[admin]
             	/docs/** = authc, perms[document:read]
@@ -32,6 +33,8 @@
 	
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="myRealm"/>
+		<property name="sessionManager" ref="sessionManager"/>
+		<property name="cacheManager" ref="cacheManager"></property>
 	</bean>
 	
 	<bean id="myRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
@@ -53,4 +56,22 @@
 		class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close"
 		p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/test?characterEncoding=UTF8"
 		p:username="root" p:password="root" p:maxActive="100" />
+	
+	<!-- 2.0 升级：会话不再依赖容器，而是缓存 -->
+	<!-- 会话Cookie 模板-->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="-1"/>
+	</bean>
+	<!-- 会话管理器-->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1800000"/>
+		<property name="deleteInvalidSessions" value="true"/>
+		<property name="sessionValidationSchedulerEnabled" value="false"/>
+		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+		<property name="sessionDAO" ref="sessionDAO"/>
+		<property name="sessionIdCookieEnabled" value="true"/>
+		<property name="sessionIdCookie" ref="sessionIdCookie"/>
+	</bean>
 </beans>

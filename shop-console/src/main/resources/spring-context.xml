@@ -20,19 +20,13 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:zk.properties"/>
 	</bean>
 
 	<import resource="spring-duboo-consumer.xml" />
-
-	<context:component-scan
-		base-package="org.shop.controller" />
-
+	<context:component-scan base-package="org.shop.shiro" />
+	<context:component-scan base-package="org.shop.controller" />
 	<mvc:annotation-driven />
-
-
-
 </beans>
