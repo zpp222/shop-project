@@ -5,7 +5,7 @@
 # 1.shop-console
 # dubbo
 # mvc
-# shiro
+# shiro https://shiro.apache.org/spring.html
 
 # 2.shop-service
 # dubbo

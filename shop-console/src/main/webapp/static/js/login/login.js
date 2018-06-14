@@ -5,7 +5,7 @@ new Vue({
 	},
 	methods : {
 		onSubmit : function(event) {
-			this.$http.post("/shop-console/login", 
+			this.$http.post("/shop-console/login2", 
 					{"name":this.user.name,"passwd":this.user.passwd}
 			).then(function(response) {
 				console.log(response);
