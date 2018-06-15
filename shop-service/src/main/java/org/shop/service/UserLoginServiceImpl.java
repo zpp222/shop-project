@@ -37,6 +37,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 	@Cacheable(value = "hzMap", key = "#id")
 	public User getUserById(String id) {
+		logger.info("getUserById {}", id);
 		User local = userDao.getUserById(id);
 		if (null == local) {
 			local = new User();
