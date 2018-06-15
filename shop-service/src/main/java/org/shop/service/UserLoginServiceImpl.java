@@ -18,7 +18,6 @@ public class UserLoginServiceImpl implements UserLoginService {
 
 	private Logger logger = LoggerFactory.getLogger(UserLoginServiceImpl.class);
 
-	
 	public String login(User user) {
 		String errorCode = "SVR-999";
 		String userName = user.getName();
@@ -26,9 +25,9 @@ public class UserLoginServiceImpl implements UserLoginService {
 		User local = userDao.getStudent(userName);
 		if (null == local) {
 			errorCode = "SVR-001";
-		}else{
-			if(local.getPasswd().equals(user.getPasswd())){
-				errorCode ="0000000";
+		} else {
+			if (local.getPasswd().equals(user.getPasswd())) {
+				errorCode = "0000000";
 			}
 		}
 		logger.info("login user is {} !", local);
@@ -40,10 +39,15 @@ public class UserLoginServiceImpl implements UserLoginService {
 		logger.info("register ...");
 		userDao.save(user);
 	}
-	
-	@Cacheable(value = "hzMap", key = "#user.id")
-	public User getUserById(String id){
-		return null;
+
+	// @Cacheable(value = "hzMap", key = "#user.id")
+	@Cacheable(value = "hzMap", key = "#id")
+	public User getUserById(String id) {
+		User local = userDao.getUserById(id);
+		if (null == local) {
+			local = new User();
+		}
+		return local;
 	}
 
 }

@@ -7,4 +7,6 @@ public interface UserDao {
 	public void save(User user);
 
 	public User getStudent(String id);
+
+	public User getUserById(String userId);
 }
