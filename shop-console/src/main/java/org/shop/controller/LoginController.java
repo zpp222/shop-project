@@ -40,16 +40,13 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public String login(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
+	public User login(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
 		HttpSession session = request.getSession();
 		String sid = session.getId();
 		logger.info("session id :" + sid);
 		session.setAttribute("username", user.getName());
-
-		String rtcode = userLoginService.login(user);
-		JSONObject json = new JSONObject();
-		json.put("rtcode", rtcode);
-		return json.toJSONString();
+		User result = userLoginService.login(user);
+		return result;
 	}
 
 	@RequiresRoles(value = { "system", "user" }, logical = Logical.OR)
@@ -74,11 +71,6 @@ public class LoginController {
 	@RequestMapping(value = "/login2", method = RequestMethod.POST)
 	@ResponseBody
 	public String login2(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
-		/*
-		 * HttpSession session = request.getSession(); String sid =
-		 * session.getId(); logger.info("session id :" + sid);
-		 * session.setAttribute("username", user.getName());
-		 */
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPasswd());
 		Subject subject = SecurityUtils.getSubject();
 
@@ -114,7 +106,7 @@ public class LoginController {
 	@RequestMapping(value = "/getUserById/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public User getUserById(@PathVariable String id) {
-		logger.info("getUserByName {}.", id);
+		logger.info("getUserById {}.", id);
 		User u = userLoginService.getUserById(id);
 		return u;
 	}
