@@ -97,7 +97,7 @@ public class LoginController {
 	@RequiresPermissions(value = { "TEST" })
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
-	public String test() {
+	public String test(HttpServletRequest request, HttpServletResponse resp) {
 		return "no permissions !";
 	}
 
@@ -109,5 +109,18 @@ public class LoginController {
 		logger.info("getUserById {}.", id);
 		User u = userLoginService.getUserById(id);
 		return u;
+	}
+	
+	@RequestMapping(value="/logout",method=RequestMethod.GET)
+	@ResponseBody
+	public String logout(){
+		JSONObject json = new JSONObject();
+		try {
+			SecurityUtils.getSubject().logout();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		json.put("rtcode", "OUT_0000");
+		return json.toJSONString();
 	}
 }

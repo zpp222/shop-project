@@ -33,7 +33,7 @@ public class HzCacheSessionDao extends AbstractSessionDAO {
 
 	public void update(Session session) throws UnknownSessionException {
 		logger.info("update session {}!", session.getId());
-		cache.remove(session);
+		cache.remove(session.getId());
 		cache.put(session.getId(), session);
 	}
 
