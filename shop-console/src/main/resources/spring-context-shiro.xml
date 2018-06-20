@@ -22,6 +22,7 @@
         	<value>
         		/static/**=anon
         		/login*=anon
+        		/logout=anon
         		/unauthorized=anon
         		/index.html=anon
             	/admin/** = authc, roles[admin]
