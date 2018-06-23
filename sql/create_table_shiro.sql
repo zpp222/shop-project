@@ -38,15 +38,15 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL,
-  `password_salt` int(11) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `password_salt` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', '666', null);
+INSERT INTO `users` VALUES ('1', 'admin', '43021e67229bd4c1734114645ddfcdad', 'shop');
 
 -- ----------------------------
 -- Table structure for `user_roles`
