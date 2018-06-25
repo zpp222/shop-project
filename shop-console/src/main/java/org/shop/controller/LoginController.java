@@ -10,6 +10,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.shop.serviceI.dto.User;
@@ -73,7 +74,7 @@ public class LoginController {
 	public String login2(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPasswd());
 		Subject subject = SecurityUtils.getSubject();
-
+		logger.info("加密paawd:{} to:{}",user.getPasswd(),new Md5Hash(user.getPasswd(),"shop"));
 		JSONObject json = new JSONObject();
 		try {
 			subject.login(token);

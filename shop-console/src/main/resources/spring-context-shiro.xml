@@ -37,10 +37,13 @@
 		<property name="sessionManager" ref="sessionManager"/>
 		<property name="cacheManager" ref="cacheManager"></property>
 	</bean>
-	
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
 	<bean id="myRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="permissionsLookupEnabled" value="true"></property>
+		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
+		<property name="SaltStyle" value="COLUMN"></property>
+		<property name="authenticationQuery" value="select password,password_salt from users where username = ?"></property>
 	</bean>
 	
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
