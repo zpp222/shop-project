@@ -2,7 +2,6 @@ package org.shop.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -41,16 +40,16 @@ public class LoginController {
 
 	private static final String SALT = "shop";
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ResponseBody
-	public User login(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
-		HttpSession session = request.getSession();
-		String sid = session.getId();
-		logger.info("session id :" + sid);
-		session.setAttribute("username", user.getName());
-		User result = userLoginService.login(user);
-		return result;
-	}
+	/*
+	 * @RequestMapping(value = "/login", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public User login(HttpServletRequest request,
+	 * HttpServletResponse resp, @RequestBody User user) { HttpSession session =
+	 * request.getSession(); String sid = session.getId();
+	 * logger.info("session id :" + sid); session.setAttribute("username",
+	 * user.getName()); User result = userLoginService.login(user); return
+	 * result; }
+	 */
 
 	@RequiresRoles(value = { "system", "user" }, logical = Logical.OR)
 	@RequiresPermissions(value = { "update" })

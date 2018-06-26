@@ -41,7 +41,14 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
-
+	<filter>
+		<filter-name>cors</filter-name>
+		<filter-class>org.shop.filter.MyCorsFilte</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>cors</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	<!-- The filter-name matches name of a 'shiroFilter' bean inside applicationContext.xml -->
 	<filter>
 		<filter-name>shiroFilter</filter-name>
@@ -58,7 +65,6 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/error.html</location>
