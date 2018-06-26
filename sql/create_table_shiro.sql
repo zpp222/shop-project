@@ -46,7 +46,8 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'admin', '43021e67229bd4c1734114645ddfcdad', 'shop');
+-- admin/666
+INSERT INTO `users` VALUES ('1', 'admin', 'f4f85d75b724f30fc079314b5b1a4d83', 'shop');
 
 -- ----------------------------
 -- Table structure for `user_roles`

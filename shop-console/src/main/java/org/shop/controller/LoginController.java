@@ -39,6 +39,8 @@ public class LoginController {
 	private static String LOGIN_EXCP = "LG_9999";
 	private static String LOGIN_FAIL = "LG_1000";
 
+	private static final String SALT = "shop";
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public User login(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
@@ -56,6 +58,9 @@ public class LoginController {
 	@ResponseBody
 	public User register(@RequestBody User user) {
 		logger.info("register user'name :" + user.getName());
+		String pw = new Md5Hash(user.getPasswd(), SALT).toString();// .toBase64()
+		user.setPasswd(pw);
+		user.setSalt(SALT);
 		userLoginService.register(user);
 		return user;
 	}
@@ -74,13 +79,14 @@ public class LoginController {
 	public String login2(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPasswd());
 		Subject subject = SecurityUtils.getSubject();
-		logger.info("加密paawd:{} to:{}",user.getPasswd(),new Md5Hash(user.getPasswd(),"shop"));
+		logger.info("加密paawd:{} to:{}", user.getPasswd(), new Md5Hash(user.getPasswd(), SALT));
 		JSONObject json = new JSONObject();
 		try {
 			subject.login(token);
 			if (subject.isAuthenticated()) {
 				json.put("rtcode", LOGIN_SUCC);
 				Session session = subject.getSession();
+				json.put("token", session.getId());
 				session.setAttribute("username", user.getName());
 				logger.info("login succ!" + session.getId());
 			} else {
@@ -111,10 +117,10 @@ public class LoginController {
 		User u = userLoginService.getUserById(id);
 		return u;
 	}
-	
-	@RequestMapping(value="/logout",method=RequestMethod.GET)
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public String logout(){
+	public String logout() {
 		JSONObject json = new JSONObject();
 		try {
 			SecurityUtils.getSubject().logout();
