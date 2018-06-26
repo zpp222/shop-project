@@ -18,8 +18,11 @@ public class MyCorsFilte extends CorsFilter {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
 		config.addAllowedOrigin("http://localhost:8081");
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
+		config.addAllowedOrigin("http://localhost:81");
+		config.addAllowedHeader("content-type");
+		config.addAllowedMethod("OPTIONS");
+		config.addAllowedMethod("GET");
+		config.addAllowedMethod("POST");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);
 		logger.info("CorsFilte ...");
