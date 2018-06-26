@@ -55,13 +55,22 @@ public class LoginController {
 	@RequiresPermissions(value = { "update" })
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	@ResponseBody
-	public User register(@RequestBody User user) {
+	public String register(@RequestBody User user) {
+		JSONObject json = new JSONObject();
 		logger.info("register user'name :" + user.getName());
-		String pw = new Md5Hash(user.getPasswd(), SALT).toString();// .toBase64()
-		user.setPasswd(pw);
-		user.setSalt(SALT);
-		userLoginService.register(user);
-		return user;
+
+		String pw = user.getPasswd();
+		String name = user.getName();
+		if (null == pw || "".equals(pw) || null == name || "".equals(name)) {
+			json.put("rtcode", LOGIN_FAIL);
+		} else {
+			pw = new Md5Hash(pw, SALT).toString();// .toBase64()
+			user.setPasswd(pw);
+			user.setSalt(SALT);
+			userLoginService.register(user);
+			json.put("rtcode", LOGIN_SUCC);
+		}
+		return json.toJSONString();
 	}
 
 	@RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
