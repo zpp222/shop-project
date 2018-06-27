@@ -15,6 +15,9 @@
 	<logger name="org.springframework.web" level="INFO">
 		<appender-ref ref="STDOUT" />
 	</logger>
+	<logger name="org.apache.shiro" level="DEBUG">
+		<appender-ref ref="STDOUT" />
+	</logger>
 	<!-- 日志输出级别 -->
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />

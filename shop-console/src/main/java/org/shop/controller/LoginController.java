@@ -2,7 +2,6 @@ package org.shop.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -10,6 +9,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.shop.serviceI.dto.User;
@@ -38,25 +38,39 @@ public class LoginController {
 	private static String LOGIN_EXCP = "LG_9999";
 	private static String LOGIN_FAIL = "LG_1000";
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	@ResponseBody
-	public User login(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
-		HttpSession session = request.getSession();
-		String sid = session.getId();
-		logger.info("session id :" + sid);
-		session.setAttribute("username", user.getName());
-		User result = userLoginService.login(user);
-		return result;
-	}
+	private static final String SALT = "shop";
+
+	/*
+	 * @RequestMapping(value = "/login", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public User login(HttpServletRequest request,
+	 * HttpServletResponse resp, @RequestBody User user) { HttpSession session =
+	 * request.getSession(); String sid = session.getId();
+	 * logger.info("session id :" + sid); session.setAttribute("username",
+	 * user.getName()); User result = userLoginService.login(user); return
+	 * result; }
+	 */
 
 	@RequiresRoles(value = { "system", "user" }, logical = Logical.OR)
 	@RequiresPermissions(value = { "update" })
 	@RequestMapping(value = "/reg", method = RequestMethod.POST)
 	@ResponseBody
-	public User register(@RequestBody User user) {
+	public String register(@RequestBody User user) {
+		JSONObject json = new JSONObject();
 		logger.info("register user'name :" + user.getName());
-		userLoginService.register(user);
-		return user;
+
+		String pw = user.getPasswd();
+		String name = user.getName();
+		if (null == pw || "".equals(pw) || null == name || "".equals(name)) {
+			json.put("rtcode", LOGIN_FAIL);
+		} else {
+			pw = new Md5Hash(pw, SALT).toString();// .toBase64()
+			user.setPasswd(pw);
+			user.setSalt(SALT);
+			userLoginService.register(user);
+			json.put("rtcode", LOGIN_SUCC);
+		}
+		return json.toJSONString();
 	}
 
 	@RequestMapping(value = "/unauthorized", method = RequestMethod.GET)
@@ -73,13 +87,14 @@ public class LoginController {
 	public String login2(HttpServletRequest request, HttpServletResponse resp, @RequestBody User user) {
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPasswd());
 		Subject subject = SecurityUtils.getSubject();
-
+		logger.info("加密paawd:{} to:{}", user.getPasswd(), new Md5Hash(user.getPasswd(), SALT));
 		JSONObject json = new JSONObject();
 		try {
 			subject.login(token);
 			if (subject.isAuthenticated()) {
 				json.put("rtcode", LOGIN_SUCC);
 				Session session = subject.getSession();
+				json.put("token", session.getId());
 				session.setAttribute("username", user.getName());
 				logger.info("login succ!" + session.getId());
 			} else {
@@ -110,10 +125,10 @@ public class LoginController {
 		User u = userLoginService.getUserById(id);
 		return u;
 	}
-	
-	@RequestMapping(value="/logout",method=RequestMethod.GET)
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public String logout(){
+	public String logout() {
 		JSONObject json = new JSONObject();
 		try {
 			SecurityUtils.getSubject().logout();
