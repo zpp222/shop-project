@@ -1,5 +1,6 @@
 package org.shop.service;
 
+import org.shop.aop.ServiceLog;
 import org.shop.dao.UserDao;
 import org.shop.serviceI.dto.User;
 import org.shop.serviceI.dto.UserLoginService;
@@ -29,6 +30,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 		return local;
 	}
 
+	@ServiceLog
 	@Transactional
 	public void register(User user) {
 		logger.info("register ...");

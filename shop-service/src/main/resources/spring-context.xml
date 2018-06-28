@@ -20,6 +20,12 @@
 
 	<context:component-scan base-package="org.shop" />
 
+	<context:component-scan base-package="org.shop.aop">
+		<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+		<context:include-filter type="annotation" expression="org.shop.aop.ServiceLog"/>
+	</context:component-scan>
+	<aop:aspectj-autoproxy/>
+
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
