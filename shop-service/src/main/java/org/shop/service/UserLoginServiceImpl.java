@@ -1,21 +1,32 @@
 package org.shop.service;
 
+import javax.annotation.Resource;
+
 import org.shop.aop.ServiceLog;
 import org.shop.dao.UserDao;
+import org.shop.service.asy.ShopAsyJob;
 import org.shop.serviceI.dto.User;
 import org.shop.serviceI.dto.UserLoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("org.shop.service.UserLoginServiceImpl")
-public class UserLoginServiceImpl implements UserLoginService {
+public class UserLoginServiceImpl extends BaseService implements UserLoginService {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Resource(name = "taskExecutor")
+	private ThreadPoolTaskExecutor taskExecutor;
+
+	private ShopAsyJob getShopAsyJob() {
+		return beanFactory.getBean(ShopAsyJob.class);
+	}
 
 	private Logger logger = LoggerFactory.getLogger(UserLoginServiceImpl.class);
 
@@ -35,6 +46,15 @@ public class UserLoginServiceImpl implements UserLoginService {
 	public void register(User user) {
 		logger.info("register ...");
 		userDao.save(user);
+
+		/** do some thing */
+		ShopAsyJob asyJob = this.getShopAsyJob();
+		asyJob.setData("hello");
+		try {
+			taskExecutor.execute(asyJob);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Cacheable(value = "hzMap", key = "#id")
