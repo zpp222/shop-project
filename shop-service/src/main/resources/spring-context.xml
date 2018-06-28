@@ -83,14 +83,16 @@
 
 	<import resource="spring-dubbo-provider.xml"/>
 	<import resource="spring-hazelcast.xml"/>
-	
+	<!-- ① -->
 	<bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
 		<property name="corePoolSize" value="10"></property>
 		<property name="maxPoolSize" value="60"></property>
 		<property name="queueCapacity" value="100"></property>
 	</bean>
-	
+	<!-- ② -->
 	<task:annotation-driven executor="myExecutor" scheduler="myScheduler"/>
 	<task:executor id="myExecutor" pool-size="5"/>
-	<task:scheduler id="myScheduler" pool-size="10"/>	
+	<task:scheduler id="myScheduler" pool-size="10"/>
+	<!-- ③ -->
+	<import resource="spring-quartz.xml"/>
 </beans>

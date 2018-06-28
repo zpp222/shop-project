@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- datasource bug -->
+	<!-- <bean id="quartzJob4UserInfo" class="org.shop.quartz.QuartzJob4UserInfo" /> -->
+	<!-- <bean id="dealUserInfoJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob4UserInfo" />
+		<property name="targetMethod" value="dealUserInfo" />
+		<property name="concurrent" value="false" />
+	</bean>
+
+	<bean id="dealShopInfoJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzJob4UserInfo" />
+		<property name="targetMethod" value="dealShopInfo" />
+		<property name="concurrent" value="false" />
+	</bean> -->
+	<bean name="dealUserInfoJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    	<property name="jobClass" value="org.shop.quartz.QuartzJob4UserInfo"/>
+    	<property name="jobDataAsMap">
+        	<map>
+            	<entry key="targetMethod" value="dealUserInfo"/>
+        	</map>
+    	</property>
+	</bean>
+	<bean name="dealShopInfoJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    	<property name="jobClass" value="org.shop.quartz.QuartzJob4UserInfo"/>
+    	<property name="jobDataAsMap">
+        	<map>
+            	<entry key="targetMethod" value="dealShopInfo"/>
+        	</map>
+    	</property>
+	</bean>
+
+
+	<bean id="simpleTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<!-- see the example of method invoking job above -->
+		<property name="jobDetail" ref="dealUserInfoJobDetail" />
+		<!-- 10 seconds -->
+		<property name="startDelay" value="10000" />
+		<!-- repeat every 50 seconds -->
+		<property name="repeatInterval" value="50000" />
+	</bean>
+
+	<bean id="cronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="dealShopInfoJobDetail" />
+		<!-- run every 30 minute from 6:00 to 18:00 -->
+		<property name="cronExpression" value="0 0/30 6-18 * * ?" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+				<ref bean="simpleTrigger" />
+			</list>
+		</property>
+	</bean>
+</beans>
