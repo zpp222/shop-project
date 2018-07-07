@@ -1,5 +1,8 @@
 package org.shop.controller;
 
+import java.io.File;
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -136,6 +142,37 @@ public class LoginController {
 			e.printStackTrace();
 		}
 		json.put("rtcode", "OUT_0000");
+		return json.toJSONString();
+	}
+
+	@RequiresRoles(value = { "system", "user" }, logical = Logical.OR)
+	@RequiresPermissions(value = { "update" })
+	@RequestMapping("/upload")
+	@ResponseBody
+	public String springUpload(HttpServletRequest request) {
+		JSONObject json = new JSONObject();
+		json.put("errcode", "99");
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+				request.getSession().getServletContext());
+		if (multipartResolver.isMultipart(request)) {
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+			Iterator<String> iter = multiRequest.getFileNames();
+			while (iter.hasNext()) {
+				MultipartFile file = multiRequest.getFile(iter.next().toString());
+				if (file != null) {
+					String path = "F:\\" + file.getOriginalFilename();
+					try {
+						file.transferTo(new File(path));
+						json.put("errcode", "00");
+						json.put("path", path);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 		return json.toJSONString();
 	}
 }
