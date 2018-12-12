@@ -42,7 +42,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="permissionsLookupEnabled" value="true"></property>
 		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
-		<property name="SaltStyle" value="COLUMN"></property>
+		<property name="saltStyle" value="COLUMN"></property>
 		<property name="authenticationQuery" value="select password,password_salt from users where username = ?"></property>
 	</bean>
 	
