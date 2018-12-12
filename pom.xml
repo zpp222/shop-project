@@ -9,10 +9,9 @@
 
 	<modules>
 		<module>shop-service</module>
-		<module>shop-console</module>
 		<module>shop-serviceI</module>
 		<module>shop-dao</module>
-    
+    	<module>shop-client</module>
   </modules>
 
 	<properties>

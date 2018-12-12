@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    	<property name="securityManager" ref="securityManager"/>
+    	<!-- override these for application-specific URLs if you like-->
+    	<property name="loginUrl" value="/"/>
+    	<property name="successUrl" value="/main"/>
+    	<property name="unauthorizedUrl" value="/unauthorized"/>
+    	<!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean  -->
+    	<!-- defined will be automatically acquired and available via its beanName in chain        -->
+    	<!-- definitions, but you can perform instance overrides or name aliases here if you like: -->
+    	<!-- <property name="filters">
+        	<util:map>
+            	<entry key="anAlias" value-ref="someFilter"/>
+       	 	</util:map>
+    		</property> -->
+    	<property name="filterChainDefinitions">
+        	<value>
+        		/static/**=anon
+        		/login*=anon
+        		/logout=anon
+        		/unauthorized=anon
+        		/index.html=anon
+            	/admin/** = authc, roles[admin]
+            	/docs/** = authc, perms[document:read]
+            	/** = authc
+        	</value>
+    	</property>
+	</bean>
+	
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm"/>
+		<property name="sessionManager" ref="sessionManager"/>
+		<property name="cacheManager" ref="cacheManager"></property>
+	</bean>
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.Md5CredentialsMatcher"></bean>
+	<bean id="myRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="permissionsLookupEnabled" value="true"></property>
+		<property name="credentialsMatcher" ref="credentialsMatcher"></property>
+		<property name="saltStyle" value="COLUMN"></property>
+		<property name="authenticationQuery" value="select password,password_salt from users where username = ?"></property>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<!-- Enable Shiro Annotations for Spring-configured beans.  Only run after -->
+	<!-- the lifecycleBeanProcessor has run: -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    	<property name="securityManager" ref="securityManager"/>
+	</bean>
+	
+	<!-- datasource -->
+	<bean id="dataSource"
+		class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close"
+		p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost:3306/test?characterEncoding=UTF8"
+		p:username="root" p:password="root" p:maxActive="100" />
+	
+	<!-- 2.0 升级：会话不再依赖容器，而是缓存 -->
+	<!-- 会话Cookie 模板-->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid"/>
+		<property name="httpOnly" value="true"/>
+		<property name="maxAge" value="-1"/>
+	</bean>
+	<!-- 会话管理器-->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1800000"/>
+		<property name="deleteInvalidSessions" value="true"/>
+		<property name="sessionValidationSchedulerEnabled" value="false"/>
+		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+		<property name="sessionDAO" ref="sessionDAO"/>
+		<property name="sessionIdCookieEnabled" value="true"/>
+		<property name="sessionIdCookie" ref="sessionIdCookie"/>
+	</bean>
+</beans>

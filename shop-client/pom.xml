@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.zpp.shop</groupId>
-		<artifactId>shop-project</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>shop-console</artifactId>
-	<packaging>war</packaging>
-	<name>shop-console Maven Webapp</name>
-	<url>http://maven.apache.org</url>
-
-	<properties>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.zpp.shop</groupId>
+    <artifactId>shop-project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>shop-client</artifactId>
+  <packaging>war</packaging>
+  <name>shop-client Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <properties>
 		<jackson.version>2.5.4</jackson.version>
 	</properties>
 
@@ -63,8 +60,7 @@
             <version>2.5</version>
         </dependency>
 	</dependencies>
-
-	<build>
-		<finalName>shop-console</finalName>
-	</build>
+  <build>
+    <finalName>shop-client</finalName>
+  </build>
 </project>
