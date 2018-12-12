@@ -4,36 +4,29 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- datasource bug -->
-	<!-- <bean id="quartzJob4UserInfo" class="org.shop.quartz.QuartzJob4UserInfo" /> -->
-	<!-- <bean id="dealUserInfoJobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="quartzJob4UserInfo" />
-		<property name="targetMethod" value="dealUserInfo" />
-		<property name="concurrent" value="false" />
+	<bean name="dealUserInfoJobDetail"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<!-- durability 表示任务完成之后是否依然保留到数据库，默认false -->
+		<property name="durability" value="true" />
+		<property name="jobClass"
+			value="org.shop.quartz.QuartzJob4UserInfo" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="targetMethod" value="dealUserInfo" />
+			</map>
+		</property>
 	</bean>
-
-	<bean id="dealShopInfoJobDetail"
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="quartzJob4UserInfo" />
-		<property name="targetMethod" value="dealShopInfo" />
-		<property name="concurrent" value="false" />
-	</bean> -->
-	<bean name="dealUserInfoJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-    	<property name="jobClass" value="org.shop.quartz.QuartzJob4UserInfo"/>
-    	<property name="jobDataAsMap">
-        	<map>
-            	<entry key="targetMethod" value="dealUserInfo"/>
-        	</map>
-    	</property>
-	</bean>
-	<bean name="dealShopInfoJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-    	<property name="jobClass" value="org.shop.quartz.QuartzJob4UserInfo"/>
-    	<property name="jobDataAsMap">
-        	<map>
-            	<entry key="targetMethod" value="dealShopInfo"/>
-        	</map>
-    	</property>
+	<bean name="dealShopInfoJobDetail"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<!-- durability 表示任务完成之后是否依然保留到数据库，默认false -->
+		<property name="durability" value="true" />
+		<property name="jobClass"
+			value="org.shop.quartz.QuartzJob4UserInfo" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="targetMethod" value="dealShopInfo" />
+			</map>
+		</property>
 	</bean>
 
 
@@ -45,6 +38,7 @@
 		<property name="startDelay" value="10000" />
 		<!-- repeat every 50 seconds -->
 		<property name="repeatInterval" value="50000" />
+		<property name="misfireInstruction" value="1"></property> <!-- MISFIRE_INSTRUCTION_FIRE_NOW -->
 	</bean>
 
 	<bean id="cronTrigger"
@@ -52,12 +46,18 @@
 		<property name="jobDetail" ref="dealShopInfoJobDetail" />
 		<!-- run every 30 minute from 6:00 to 18:00 -->
 		<property name="cronExpression" value="0 0/30 6-18 * * ?" />
+		<property name="misfireInstruction" value="2"/> <!-- MISFIRE_INSTRUCTION_DO_NOTHING -->
 	</bean>
 
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<bean
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="dataSource">
-			<ref bean="dataSource"/>
+			<ref bean="dataSource" />
 		</property>
+		<property name="overwriteExistingJobs" value="true" />
+		<property name="startupDelay" value="20" />
+		<property name="configLocation"
+			value="classpath:quartz.properties"></property>
 		<property name="triggers">
 			<list>
 				<ref bean="cronTrigger" />

@@ -97,7 +97,7 @@
 				<directory>src/main/resources</directory>
 				<includes>
 					<include>*.xml</include>
-					<include>dubbo.properties</include>
+					<include>*.properties</include>
 					<include>META-INF/dubbo/com.alibaba.dubbo.rpc.Filter</include>
 				</includes>
 				<filtering>false</filtering>
