@@ -2,7 +2,7 @@
 
 >  contain 2 modules
 
-## 1.shop-console
+## 1.shop-client
 ### dubbo
 ### mvc
 ### shiro
