@@ -22,6 +22,6 @@
         
 	<dubbo:application name="shop-consumer" />
 	<dubbo:registry protocol="zookeeper" address="${dubbo.address}" />
-	<dubbo:reference id="userLoginService" interface="org.shop.serviceI.dto.UserLoginService"/>
+	<dubbo:reference id="userLoginService" interface="org.shop.serviceI.dto.UserLoginService" loadbalance="roundrobin"/>
 	
 </beans>
