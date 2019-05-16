@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("org.shop.service.UserLoginServiceImpl")
 public class UserLoginServiceImpl extends BaseService implements UserLoginService {
 
+	private Logger logger = LoggerFactory.getLogger(UserLoginServiceImpl.class);
+
 	@Autowired
 	private UserDao userDao;
 
@@ -29,8 +31,6 @@ public class UserLoginServiceImpl extends BaseService implements UserLoginServic
 	private ShopAsyJob getShopAsyJob() {
 		return beanFactory.getBean(ShopAsyJob.class);
 	}
-
-	private Logger logger = LoggerFactory.getLogger(UserLoginServiceImpl.class);
 
 	@Cacheable(value = "hzMap", key = "#user.name")
 	public User login(User user) {
@@ -69,9 +69,10 @@ public class UserLoginServiceImpl extends BaseService implements UserLoginServic
 		return local;
 	}
 
+	@Cacheable(cacheManager = "caffeCacheManager", value = "userCache", key = "#root.methodName")
 	@Override
-	public Map<String,String> getUserCount() {
-		Map<String,String> result = userDao.getUserCount();
+	public Map<String, String> getUserCount() {
+		Map<String, String> result = userDao.getUserCount();
 		return result;
 	}
 

@@ -95,4 +95,5 @@
 	<task:scheduler id="myScheduler" pool-size="10"/>
 	<!-- ③ -->
 	<import resource="spring-quartz.xml"/>
+	<import resource="spring-caffeine.xml"/>
 </beans>

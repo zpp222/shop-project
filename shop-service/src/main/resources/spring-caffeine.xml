@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+	<cache:annotation-driven cache-manager="caffeCacheManager" />
+	<bean id="caffeineCacheLoader" class="org.shop.caffeine.CaffeineCacheLoader"></bean>
+	<bean id="caffeCacheManager" class="org.springframework.cache.caffeine.CaffeineCacheManager">
+		<property name="cacheSpecification"
+			value="initialCapacity=8,
+			maximumSize=100,
+			expireAfterWrite=1m,
+			refreshAfterWrite=40s,
+			softValues" />
+		<property name="cacheLoader" ref="caffeineCacheLoader"></property>
+		<property name="cacheNames">
+			<list>
+				<value>userCache</value>
+			</list>
+		</property>
+	</bean>
+</beans>
