@@ -69,10 +69,11 @@ public class UserLoginServiceImpl extends BaseService implements UserLoginServic
 		return local;
 	}
 
-	@Cacheable(cacheManager = "caffeCacheManager", value = "userCache", key = "#root.methodName")
+	@Cacheable(cacheManager = "caffeCacheManager", value = "userCache", key = "#root.methodName",unless="#result==null")
 	@Override
 	public Map<String, String> getUserCount() {
 		Map<String, String> result = userDao.getUserCount();
+		logger.info("实际执行userDao.getUserCount...");
 		return result;
 	}
 
