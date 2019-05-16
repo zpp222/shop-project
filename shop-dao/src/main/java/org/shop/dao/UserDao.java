@@ -1,5 +1,7 @@
 package org.shop.dao;
 
+import java.util.Map;
+
 import org.shop.serviceI.dto.User;
 
 public interface UserDao {
@@ -9,4 +11,6 @@ public interface UserDao {
 	public User getStudent(String id);
 
 	public User getUserById(String userId);
+	
+	public Map<String,String> getUserCount();
 }

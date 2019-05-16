@@ -1,5 +1,7 @@
 package org.shop.service;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.shop.aop.ServiceLog;
@@ -65,6 +67,12 @@ public class UserLoginServiceImpl extends BaseService implements UserLoginServic
 			local = new User();
 		}
 		return local;
+	}
+
+	@Override
+	public Map<String,String> getUserCount() {
+		Map<String,String> result = userDao.getUserCount();
+		return result;
 	}
 
 }

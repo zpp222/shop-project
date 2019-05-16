@@ -17,4 +17,7 @@
     <select id="getUserById" resultMap="resultMap" parameterType="String">
         select * from users where id=#{id,jdbcType=VARCHAR} limit 0,1;
     </select>
+    <select id="getUserCount" resultType="HashMap">
+        select count(*) as num from users;
+    </select>
 </mapper>
