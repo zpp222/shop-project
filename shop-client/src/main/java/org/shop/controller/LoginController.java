@@ -160,7 +160,7 @@ public class LoginController {
 			while (iter.hasNext()) {
 				MultipartFile file = multiRequest.getFile(iter.next().toString());
 				if (file != null) {
-					String path = "F:\\" + file.getOriginalFilename();
+					String path = "D:\\tmp\\" + file.getOriginalFilename();
 					try {
 						file.transferTo(new File(path));
 						json.put("errcode", "00");
