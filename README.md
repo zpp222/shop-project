@@ -12,3 +12,4 @@
 ### dubbo
 ### spring
 ### hazelcast
+### caffeine
