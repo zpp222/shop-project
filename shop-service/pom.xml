@@ -22,8 +22,8 @@
 			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
+					<groupId>com.zpp.shop</groupId>
+					<artifactId>shop-serviceI</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -31,12 +31,6 @@
 			<groupId>com.zpp.shop</groupId>
 			<artifactId>shop-serviceI</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- Mybatis3.2.7 -->

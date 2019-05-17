@@ -5,12 +5,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
+	<!-- <parent>
 		<groupId>com.zpp.shop</groupId>
 		<artifactId>shop-project</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+	</parent> -->
+	<groupId>com.zpp.shop</groupId>
 	<artifactId>shop-dao</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>shop-dao</name>
 	<url>http://maven.apache.org</url>
 	<properties>
